@@ -42,4 +42,18 @@ Se conserva la compatibilidad con los pedidos anteriores que no tenían método 
 
 ## Qué falta para operar con dinero real
 
+## Comunidad y modelo de ingresos
+
+AgroMatch no cobra comisión por transacción. El modelo propuesto se financia con anuncios y otras formas de publicidad identificadas. Los costos de terceros, como transporte o procesamiento de pagos, son independientes de la comisión de plataforma.
+
+`community.html` contiene perfiles de agricultores y distribuidores ficticios, filtros por provincia y especialidad, y creación/edición de perfiles locales. Los lotes enlazan al perfil de su finca y los perfiles vuelven al catálogo filtrado. Los perfiles locales no son cuentas públicas ni identidades verificadas. Se eliminan con «Borrar mis datos de prueba» en el mercado.
+
+La búsqueda cercana solicita geolocalización solamente al pulsar el botón correspondiente. Calcula distancias Haversine en el dispositivo y no guarda ni envía las coordenadas. Incluye un esquema orientativo, radio configurable, alternativa por provincia y manejo de permiso denegado. Las coordenadas de los negocios de muestra son ficticias; no son destinos ni rutas reales. Los perfiles sin coordenadas se muestran sin filtro de distancia o con «Sin límite».
+
+`node tests/community.cjs` comprueba filtros, búsqueda por sinónimos, creación y edición, persistencia, geolocalización permitida/denegada, enlaces al catálogo y anchos de pantalla.
+
+La función «pay safe» queda pendiente de definir: protección de compra o integración con Paysafe. Esta versión no ofrece retención de fondos, seguros ni garantía de pago.
+
+## Requisitos para operar con dinero real
+
 Este alojamiento estático no aporta cuentas verificadas, base de datos compartida, control de acceso entre productores/compradores, cobro bancario, notificaciones ni logística. Se necesita un servidor y un proveedor de pagos con checkout alojado y confirmación de eventos desde el servidor. Para SINPE se deben definir receptor, conciliación del abono, almacenamiento privado de comprobantes y quién puede revisarlos. Una imagen no sustituye la confirmación del banco. No incorporar claves privadas, números de tarjeta ni CVV a este repositorio.
