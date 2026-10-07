@@ -13,6 +13,22 @@ const shareStatus=document.createElement('span');shareStatus.className='share-st
 copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(publishedURL);shareStatus.textContent='Enlace copiado';}catch{shareStatus.textContent=publishedURL;}});
 document.querySelector('footer').prepend(share);
 const chapters=[...document.querySelectorAll('[data-chapter]')];
-const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');document.querySelector('#chapter-label').textContent=entry.target.dataset.chapter;document.querySelector('.story-progress i').style.width=((chapters.indexOf(entry.target)+1)/3*100)+'%';}})},{threshold:.35});
-chapters.forEach(el=>observer.observe(el));
+const stops=[...document.querySelectorAll('[data-story]')];
+chapters.forEach((chapter,i)=>{chapter.id='cosecha-'+i;chapter.classList.add('in-view');});
+let scrollFrame=0;
+function updateHarvest(){
+ scrollFrame=0;
+ const focus=innerHeight*.65;
+ let current=0;
+ chapters.forEach((chapter,i)=>{
+  const rect=chapter.getBoundingClientRect();
+  const fill=Math.max(0,Math.min(1,(focus-rect.top)/Math.max(1,rect.height*.65)));
+  stops[i].style.setProperty('--harvest-fill',(fill*100)+'%');
+  if(rect.top<focus)current=i;
+ });
+ stops.forEach((stop,i)=>{stop.classList.toggle('current',i===current);if(i===current)stop.setAttribute('aria-current','step');else stop.removeAttribute('aria-current');});
+ document.querySelector('#chapter-label').textContent=chapters[current].dataset.chapter;
+}
+stops.forEach((stop,i)=>stop.addEventListener('click',()=>chapters[i].scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'})));
+addEventListener('scroll',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(updateHarvest);},{passive:true});addEventListener('resize',updateHarvest);updateHarvest();
 document.querySelectorAll('[data-device]').forEach(btn=>btn.addEventListener('click',()=>{const d=btn.dataset.device;document.querySelectorAll('[data-device]').forEach(b=>{b.classList.toggle('active',b===btn);b.setAttribute('aria-pressed',String(b===btn));});document.querySelector('#phone').className='phone '+d;const frame=document.querySelector('#app-preview');frame.src='market.html?device='+d+'&embed=1';frame.title='Prototipo interactivo de AgroMatch para '+(d==='ios'?'iPhone':'Android');document.querySelector('#open-mobile').href='market.html?device='+d;}));

@@ -17,3 +17,29 @@ Proyecto universitario · Universidad Fidélitas · 2026
 Instagram: [@agro.match_](https://www.instagram.com/agro.match_/)
 
 Créditos de las fotos en [`creditos.html`](creditos.html).
+
+## Búsqueda y accesibilidad
+
+El buscador reconoce seis grupos de nombres agrícolas en ambos sentidos (por ejemplo, palta/aguacate), plurales, mayúsculas y palabras sin tilde. Las equivalencias no hacen aparecer productos que no están disponibles. Las fuentes y las exclusiones para evitar confusiones están en [Terminología](docs/terminologia.md).
+
+El botón «Texto grande» mejora la lectura y recuerda la preferencia. Los controles táctiles tienen mayor tamaño. La historia utiliza indicadores con fotografías de vegetales que se colorean al avanzar; también se pueden activar con teclado. Se respeta la preferencia de movimiento reducido.
+
+## Compra, ventas y métodos de pago
+
+El carrito permite agregar lotes, cambiar kilos dentro de los límites de inventario y quitar productos. Los pedidos reservan inventario local; cancelar un pedido no retirado devuelve los kilos al catálogo.
+
+- **SINPE Móvil:** opción de adjuntar un comprobante ahora o después desde Mis pedidos; queda pendiente de revisión. El receptor no está configurado y no se solicita una transferencia real.
+- **Comprobantes:** JPG, PNG o PDF de hasta 5 MB, con revisión de extensión, MIME y firma inicial. Se guardan como archivos en IndexedDB del navegador, no en GitHub ni en un servidor. Descargar, reemplazar y eliminar mediante cancelación o borrado de datos es posible. No se realiza verificación bancaria ni escaneo antimalware; usar solo archivos ficticios.
+- **Tarjeta:** prueba de resultado aprobado/rechazado sin capturar números, vencimientos ni CVV. Un rechazo conserva el carrito.
+- **Al retirar:** pedido con pago pendiente.
+- **Mis ventas de prueba:** permite recorrer la revisión o rechazo del comprobante. Las acciones están rotuladas como simulación. No valida pagos reales ni representa permisos entre cuentas reales.
+
+Se conserva la compatibilidad con los pedidos anteriores que no tenían método de pago. «Borrar mis datos de prueba» también elimina los comprobantes locales.
+
+## Pruebas
+
+`node --test tests/search.test.cjs` ejecuta los casos de equivalencias y evita confundir productos distintos. `tests/flows.cjs` usa Playwright con el sitio servido localmente (variable `AGRO_TEST_URL`, por defecto `http://127.0.0.1:8766/`). `AGRO_BROWSER_CHANNEL` permite elegir un navegador instalado; el valor predeterminado es `msedge`. `AGRO_SCREENSHOT` selecciona dónde guardar la captura de prueba.
+
+## Qué falta para operar con dinero real
+
+Este alojamiento estático no aporta cuentas verificadas, base de datos compartida, control de acceso entre productores/compradores, cobro bancario, notificaciones ni logística. Se necesita un servidor y un proveedor de pagos con checkout alojado y confirmación de eventos desde el servidor. Para SINPE se deben definir receptor, conciliación del abono, almacenamiento privado de comprobantes y quién puede revisarlos. Una imagen no sustituye la confirmación del banco. No incorporar claves privadas, números de tarjeta ni CVV a este repositorio.
