@@ -3,3 +3,5 @@
 dialog>.close-dialog{position:sticky;top:0;float:right;margin-top:-10px;margin-right:-10px;margin-bottom:-34px;box-shadow:0 2px 8px #153f3022}
 
 .community-entry{background:#eaf2d9;padding:20px;border-radius:18px;margin:24px 0}.community-entry p{margin:12px 0 0;color:#153f30}.commission-line{display:flex;justify-content:space-between;gap:16px;padding:12px 0;color:#153f30}.community-promo{background:#eaf2d9}.community-promo>p{max-width:740px}.product-farm a{text-decoration:underline;text-underline-offset:3px}
+
+.farm-filter{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px;background:#eaf2d9;border-radius:16px;margin-bottom:20px}.farm-filter[hidden]{display:none}.farm-filter p{margin:0;font-weight:700}#repeat-summary li{margin:14px 0}#repeat-dialog .close-dialog{float:right}@media(max-width:600px){.farm-filter{align-items:stretch;flex-direction:column}}
