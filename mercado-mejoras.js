@@ -1,11 +1,11 @@
 'use strict';
-let selectedFarm=new URLSearchParams(location.search).get('farm')||'';
+const parametrosFinca=new URLSearchParams(location.search);let selectedFarm=parametrosFinca.get('finca')||parametrosFinca.get('farm')||'';
 const farmFilter=document.createElement('div');farmFilter.className='farm-filter';farmFilter.innerHTML='<p id="selected-farm" role="status"></p><button type="button" class="button outline" id="clear-farm">Ver todas las fincas</button>';
 $('.search-row').before(farmFilter);
 const originalFiltered=filtered;
 filtered=function(){return originalFiltered().filter(p=>!selectedFarm||p.farm===selectedFarm);};
 function updateFarmFilter(){farmFilter.hidden=!selectedFarm;$('#selected-farm').textContent='Cosechas de '+selectedFarm;renderProducts();}
-$('#clear-farm').addEventListener('click',()=>{selectedFarm='';const url=new URL(location.href);url.searchParams.delete('farm');history.replaceState(null,'',url);updateFarmFilter();});
+$('#clear-farm').addEventListener('click',()=>{selectedFarm='';const url=new URL(location.href);url.searchParams.delete('finca');url.searchParams.delete('farm');history.replaceState(null,'',url);updateFarmFilter();});
 if(selectedFarm)$('#search').value='';
 updateFarmFilter();
 

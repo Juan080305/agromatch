@@ -1,6 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const search=require('../search-dictionary.js');
+const search=require('../diccionario-busqueda.js');
 test('equivalencias bidireccionales, plurales y tildes',()=>{
  for(const [left,right] of [['aguacate','palta'],['chayote','güisquil'],['vainica','ejote'],['yuca','mandioca'],['papa','patata'],['camote','boniato']]){
   assert(search.matches({name:left},right));assert(search.matches({name:right},left));

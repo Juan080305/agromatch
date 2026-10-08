@@ -1,10 +1,10 @@
 const {chromium,devices}=require('playwright');
 const assert=require('node:assert/strict');
-const base=process.env.AGRO_TEST_URL||'http://127.0.0.1:8766/';
+const base=process.env.AGRO_URL_PRUEBA||'http://127.0.0.1:8766/';
 (async()=>{
- const browser=await chromium.launch({headless:true,channel:process.env.AGRO_BROWSER_CHANNEL||'msedge'});
+ const browser=await chromium.launch({headless:true,channel:process.env.AGRO_NAVEGADOR||'msedge'});
  const context=await browser.newContext({...devices['iPhone 13']});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(base+'market.html');
+ await page.goto(base+'mercado.html');
  await page.locator('#search').fill('paltas hass');assert.equal(await page.locator('#products .product-card').count(),1);assert.match(await page.locator('#search-match').textContent(),/aguacate/);
  await page.locator('#products .product-title').click();await page.locator('#add-form input').fill('6');await page.locator('#add-form button').click();await page.locator('#cart-open').click();
  await page.locator('[data-change="1"]').click();assert.match(await page.locator('.qty-buttons span').textContent(),/7 kg/);
@@ -23,8 +23,8 @@ const base=process.env.AGRO_TEST_URL||'http://127.0.0.1:8766/';
  await page.locator('.bottom-nav [data-view=sell]').click();await page.locator('#sell-form [name=name]').fill('Palta criolla');await page.locator('#sell-form [name=farm]').fill('Finca de prueba');await page.locator('#sell-form [name=description]').fill('Lote fresco');await page.locator('#sell-form button[type=submit]').click();await page.locator('.bottom-nav [data-view=explore]').click();await page.locator('#search').fill('aguacate');assert.equal(await page.locator('#products .product-card').count(),2);
  await page.locator('.reading-toggle').click();assert(await page.locator('body').evaluate(e=>e.classList.contains('large-text')));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  await page.goto(base);assert.equal(await page.locator('.chapter-number').count(),0);assert.equal(await page.locator('.harvest-stop').count(),3);await page.locator('[data-story="2"]').click();await page.waitForTimeout(900);assert.equal(await page.locator('[data-story="2"]').getAttribute('aria-current'),'step');
- await page.screenshot({path:process.env.AGRO_SCREENSHOT||'work/agro-story-new.png',fullPage:true});
+ await page.screenshot({path:process.env.AGRO_CAPTURA||require('node:path').join(require('node:os').tmpdir(),'recorrido-historia.png'),fullPage:true});
  assert.deepEqual(errors,[]);await context.close();
- const desktop=await browser.newPage();for(const width of [320,390,768,1024,1440]){await desktop.setViewportSize({width,height:900});for(const route of ['', 'market.html']){await desktop.goto(base+route);assert(await desktop.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${route} overflow at ${width}`);}}
- await browser.close();console.log('PASS: aliases, cart add/remove/quantities, rejected/approved card, pending SINPE, file validation, receipt persistence, seller review, cancellation/inventory, seller aliases, large text, story indicators, 5 viewport widths, no JS errors.');
+ const desktop=await browser.newPage();for(const width of [320,390,768,1024,1440]){await desktop.setViewportSize({width,height:900});for(const route of ['', 'mercado.html']){await desktop.goto(base+route);assert(await desktop.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`desborde horizontal en ${route} a ${width} px`);}}
+ await browser.close();console.log('BIEN: sinónimos, carrito, tarjeta aprobada y rechazada, SINPE pendiente, validación de archivos, comprobantes guardados, revisión del vendedor, cancelación e inventario, texto grande, indicadores de la historia, 5 anchos de pantalla y sin errores.');
 })().catch(error=>{console.error(error);process.exit(1);});

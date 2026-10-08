@@ -1,0 +1,16 @@
+{
+  "name": "AgroMatch",
+  "short_name": "AgroMatch",
+  "description": "Cosechas de Costa Rica para tu negocio.",
+  "lang": "es-CR",
+  "start_url": "mercado.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f8f4",
+  "theme_color": "#153f30",
+  "icons": [
+    { "src": "imagenes/iconos/icono-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "imagenes/iconos/icono-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "imagenes/iconos/icono-adaptable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

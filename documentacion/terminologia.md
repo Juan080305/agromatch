@@ -23,7 +23,7 @@ Se incluyen plurales, mayúsculas y escritura sin tildes. La transformación se 
 
 No se agrupan automáticamente banano y plátano, culantro y culantro coyote, ni todas las especies llamadas calabaza. «Habichuela» se omite por su ambigüedad entre vaina y grano según la región. Las variedades no se consideran intercambiables. No se inventa disponibilidad: si no hay un lote de chayote, buscar güisquil sigue mostrando cero resultados.
 
-Para ampliar el índice, agregar un grupo documentado en `search-dictionary.js` y probar ambos sentidos y casos que no deben coincidir.
+Para ampliar el índice, agregar un grupo documentado en `diccionario-busqueda.js` y probar ambos sentidos y casos que no deben coincidir.
 
 ## Referencia para SINPE
 

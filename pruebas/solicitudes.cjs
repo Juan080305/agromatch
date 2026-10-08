@@ -1,11 +1,11 @@
 const {chromium,devices}=require('playwright');
 const assert=require('node:assert/strict');
-const base=process.env.AGRO_TEST_URL||'http://127.0.0.1:8766/';
+const base=process.env.AGRO_URL_PRUEBA||'http://127.0.0.1:8766/';
 (async()=>{
- const browser=await chromium.launch({headless:true,channel:process.env.AGRO_BROWSER_CHANNEL||'msedge'});
+ const browser=await chromium.launch({headless:true,channel:process.env.AGRO_NAVEGADOR||'msedge'});
  try{
   const context=await browser.newContext({...devices['iPhone 13']});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'market.html?view=match');
+  await page.goto(base+'mercado.html?vista=solicitudes');
   assert.equal(await page.locator('#match-view').isVisible(),true);
   assert.match(await page.locator('#request-list').textContent(),/primera solicitud/);
 
@@ -58,7 +58,7 @@ const base=process.env.AGRO_TEST_URL||'http://127.0.0.1:8766/';
   const guisquil=page.locator('.request-card',{hasText:'güisquil'});
   assert.match(await guisquil.textContent(),/Chayote/);
 
-  await page.goto(base+'market.html');
+  await page.goto(base+'mercado.html');
   await page.locator('#search').fill('culantro');
   await page.locator('[data-request-from-search]').click();
   assert.equal(await page.locator('#match-view').isVisible(),true);
@@ -66,18 +66,18 @@ const base=process.env.AGRO_TEST_URL||'http://127.0.0.1:8766/';
 
   for(const width of [320,360,390,768,1280]){
    await page.setViewportSize({width,height:860});
-   for(const view of ['match','sell']){await page.evaluate(v=>setView(v),view);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`overflow ${view} ${width}`);}
+   for(const view of ['match','sell']){await page.evaluate(v=>setView(v),view);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`desborde horizontal en ${view} a ${width} px`);}
   }
   await page.evaluate(()=>document.querySelector('.reading-toggle').click());
   await page.setViewportSize({width:320,height:700});
-  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'overflow large text 320');
-  assert.equal(await page.evaluate(()=>{const n=document.querySelector('.bottom-nav');return n.scrollWidth>n.clientWidth;}),false,'bottom nav fits');
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'desborde horizontal con texto grande a 320 px');
+  assert.equal(await page.evaluate(()=>{const n=document.querySelector('.bottom-nav');return n.scrollWidth>n.clientWidth;}),false,'la barra inferior cabe completa');
 
   await page.locator('#reset-demo').evaluate(b=>b.click());await page.locator('#confirm-reset').click();
   await page.waitForFunction(()=>document.querySelector('#toast').textContent.includes('eliminados'));
   await page.evaluate(()=>setView('match'));
   assert.equal(await page.locator('.request-card').count(),0);
   assert.deepEqual(errors,[]);
-  console.log('PASS: match requests, partial and empty matches, add from match, persistence, seller demand prefill, search to request, widths, large text, reset.');
+  console.log('BIEN: solicitudes con coincidencia completa, parcial y sin lotes, compra desde la solicitud, persistencia, demanda para productores, búsqueda convertida en solicitud, anchos de pantalla, texto grande y borrado de datos.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
