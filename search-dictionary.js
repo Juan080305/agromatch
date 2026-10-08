@@ -18,7 +18,8 @@
     const q = canonical(query); if (!q) return true;
     const text = canonical([product.name, product.farm, product.province, product.description].join(' '));
     const words = text.split(' ');
-    return q.split(' ').every(token => words.some(word => word === token || (token.length >= 3 && word.startsWith(token))));
+    const singular = token => token.length > 4 && token.endsWith('es') ? [token.slice(0, -2), token.slice(0, -1)] : token.length > 3 && token.endsWith('s') ? [token.slice(0, -1)] : [];
+    return q.split(' ').every(token => words.some(word => word === token || (token.length >= 3 && word.startsWith(token)) || singular(token).includes(word)));
   }
   const api = {groups, normalize, canonical, matches};
   root.AgroSearch = api;

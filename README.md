@@ -9,6 +9,7 @@ Este repositorio tiene el prototipo web del proyecto:
 - **Inicio** (`index.html`): la historia, cómo funciona, quiénes somos y preguntas frecuentes.
 - **Mercado** (`market.html`): catálogo de lotes con búsqueda, filtros por provincia y categoría, favoritos, carrito, pedidos simulados y publicación de lotes de prueba.
 - **Comunidad** (`community.html`): perfiles de agricultores y distribuidores, filtros y búsqueda cercana.
+- **Match** (`market.html?view=match`): el comprador cuenta qué necesita y ve los lotes que calzan; el productor ve quién busca cosechas.
 
 Funciona en computadora, iPhone y Android. Es una demostración: no hay cobros ni pedidos reales, y todo lo que se guarda queda solo en el navegador de cada persona.
 
@@ -21,9 +22,17 @@ Créditos de las fotos en [`creditos.html`](creditos.html).
 
 ## Búsqueda y accesibilidad
 
-El buscador reconoce seis grupos de nombres agrícolas en ambos sentidos (por ejemplo, palta/aguacate), plurales, mayúsculas y palabras sin tilde. Las equivalencias no hacen aparecer productos que no están disponibles. Las fuentes y las exclusiones para evitar confusiones están en [Terminología](docs/terminologia.md).
+El buscador reconoce seis grupos de nombres agrícolas en ambos sentidos (por ejemplo, palta/aguacate), plurales comunes (tomates, limones), mayúsculas y palabras sin tilde. Las equivalencias no hacen aparecer productos que no están disponibles. Las fuentes y las exclusiones para evitar confusiones están en [Terminología](docs/terminologia.md).
 
 El botón «Texto grande» mejora la lectura y recuerda la preferencia. Los controles táctiles tienen mayor tamaño. La historia utiliza indicadores con fotografías de vegetales que se colorean al avanzar; también se pueden activar con teclado. Se respeta la preferencia de movimiento reducido.
+
+## Match entre compradores y lotes
+
+El comprador indica producto, kilos, fecha, provincia de preferencia y precio máximo opcional. Cada lote del mismo producto (con sinónimos y plurales) se compara en cuatro puntos: kilos disponibles, fecha en que está listo, provincia y precio. Los lotes que cumplen todo aparecen primero como «Tenés match»; los demás muestran exactamente qué les falta. Si ningún lote alcanza los kilos solo, se indica cuánto suman juntos. Desde la solicitud se agregan los kilos al carrito.
+
+Si una búsqueda en el mercado no encuentra nada, el botón «Pedir este producto» la convierte en solicitud.
+
+En «Publicar lote», la sección «Quién busca cosechas» muestra las solicitudes (las propias y seis ejemplos ficticios). «Publicar un lote para esta solicitud» llena el formulario con producto, kilos, provincia y precio; al publicar, se avisa con cuántas solicitudes calza el lote. Las solicitudes se guardan solo en este navegador y se eliminan con «Borrar mis datos de prueba».
 
 ## Compra, ventas y métodos de pago
 
@@ -39,7 +48,7 @@ Se conserva la compatibilidad con los pedidos anteriores que no tenían método 
 
 ## Pruebas
 
-`node --test tests/search.test.cjs` ejecuta los casos de equivalencias y evita confundir productos distintos. `tests/flows.cjs` usa Playwright con el sitio servido localmente (variable `AGRO_TEST_URL`, por defecto `http://127.0.0.1:8766/`). `AGRO_BROWSER_CHANNEL` permite elegir el navegador en todas las pruebas de Playwright (`msedge` por defecto; `chromium` o `chrome` también sirven). `AGRO_SCREENSHOT` selecciona dónde guardar la captura de prueba.
+`node --test tests/search.test.cjs` ejecuta los casos de equivalencias y evita confundir productos distintos. `tests/match.cjs` recorre solicitudes con match completo, parcial y sin lotes, la compra desde el match, la demanda para productores y los anchos de pantalla. `tests/flows.cjs` usa Playwright con el sitio servido localmente (variable `AGRO_TEST_URL`, por defecto `http://127.0.0.1:8766/`). `AGRO_BROWSER_CHANNEL` permite elegir el navegador en todas las pruebas de Playwright (`msedge` por defecto; `chromium` o `chrome` también sirven). `AGRO_SCREENSHOT` selecciona dónde guardar la captura de prueba.
 
 ## Comunidad y modelo de ingresos
 

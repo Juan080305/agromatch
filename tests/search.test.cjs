@@ -20,3 +20,9 @@ test('consultas parciales y varios términos',()=>{
  assert(search.matches({name:'Tomate de temporada',province:'Cartago'},'tom cartago'));
  assert(!search.matches({name:'Tomate',province:'Cartago'},'tom alajuela'));
 });
+test('plurales comunes fuera de las equivalencias',()=>{
+ assert(search.matches({name:'Tomate de temporada'},'tomates'));
+ assert(search.matches({name:'Limón mandarina'},'limones'));
+ assert(search.matches({name:'Zanahoria fresca'},'zanahorias frescas'));
+ assert(!search.matches({name:'Tomatillo'},'tomates'));
+});
