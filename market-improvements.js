@@ -1,5 +1,4 @@
 'use strict';
-// Keep farm selection separate from product search so buyers can combine both.
 let selectedFarm=new URLSearchParams(location.search).get('farm')||'';
 const farmFilter=document.createElement('div');farmFilter.className='farm-filter';farmFilter.innerHTML='<p id="selected-farm" role="status"></p><button type="button" class="button outline" id="clear-farm">Ver todas las fincas</button>';
 $('.search-row').before(farmFilter);

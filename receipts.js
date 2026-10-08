@@ -1,4 +1,3 @@
-/* Los comprobantes de demostración nunca salen del navegador. */
 window.AgroReceipts = (() => {
   function db() { return new Promise((resolve,reject) => {
     const req = indexedDB.open('agromatch-receipts',1);

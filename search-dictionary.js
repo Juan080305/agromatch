@@ -1,4 +1,3 @@
-/* Equivalencias agrícolas revisadas; fuentes y alcance en docs/terminologia.md. */
 (function (root) {
   const groups = [
     ['aguacate', 'aguacates', 'palta', 'paltas'],
